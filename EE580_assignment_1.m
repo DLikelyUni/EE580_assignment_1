@@ -1,4 +1,7 @@
 %Assignment 1 - sem 2
+% Lewis Carty
+% Duncan Likely
+
 clear;
 stunum_l=[2,0,2,1,1,2,9,8,5];
 stunum_d=[2,0,2,1,2,9,6,6,3];
