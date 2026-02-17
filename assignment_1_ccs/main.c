@@ -34,5 +34,6 @@ int main(void)
       x2[i-1] = u_2[i%9] - mean_x2;
       test = x1[i-1]+x2[i-1];
     } while(i < SIG_LEN);
+  test = 0;
 	return 0;
 }
