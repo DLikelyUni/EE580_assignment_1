@@ -5,7 +5,7 @@
 clear;
 u_1=[2,0,2,1,1,2,9,8,5];
 u_2=[2,0,2,1,2,9,6,6,3];
-x1=u_1;
+x1=u_1; 
 x2=u_2;
 
 for i=1:99 %Generate signal with length N=900 samples
@@ -103,17 +103,17 @@ plot(fs/L*(-L/2:L/2-1),abs(fftshift(Y1)));
 title('|fft Y_1[n]|')
 xlabel('f(Hz)')
 ylabel('amplitude')
-
+%%
 %overlay x1 vs bandstop
 figure('Name','x1 vs y1:overlay')
-plot(fs/L*(-L/2:L/2-1),abs(fftshift(X1)),'b');
+plot(fs/L*(-L/2:L/2-1),abs(fftshift(X1)),'b','LineWidth',2);
 hold on;
-plot(fs/L*(-L/2:L/2-1),abs(fftshift(Y1)),'--r');
+plot(fs/L*(-L/2:L/2-1),abs(fftshift(Y1)),'--r','LineWidth',2);
 xlabel('f(Hz)')
 ylabel('amplitude')
 legend('|fft X_1|','|fft Y_1|')
 title('X1 vs Y1, fd=705Hz')
-
+xlim([0 3000]);
 %% Bandstop filtered signal x1[n]
 figure('Name','x2 vs y2')
 tiledlayout(2,1)
@@ -129,27 +129,27 @@ plot(fs/L*(-L/2:L/2-1),abs(fftshift(Y2)));
 title('|fft Y_2|')
 xlabel('f(Hz)')
 ylabel('amplitude')
-
+%%
 %overlay x2 vs bandstop
 figure('Name','x2 vs y2:overlay')
-plot(fs/L*(-L/2:L/2-1),abs(fftshift(X2)),'b');
+plot(fs/L*(-L/2:L/2-1),abs(fftshift(X2)),'b','LineWidth',2);
 hold on;
-plot(fs/L*(-L/2:L/2-1),abs(fftshift(Y2)),'--r');
+plot(fs/L*(-L/2:L/2-1),abs(fftshift(Y2)),'--r','LineWidth',2);
 xlabel('f(Hz)')
 ylabel('amplitude')
 legend('|fft X_2|','|fft Y_2|')
 title('X_2 vs Y_2, fd=2810Hz')
-
+xlim([0 3000]);
 %% time series plots of bandpassed signals
 figure('Name','time series y1, y2')
 tiledlayout(2,1)
 % nexttile
-% plot(t900(401:427)*1000,x1(402:428));
+% plot(t900(401:427)*1000,x1(401:427));
 % title('x_1')
 % xlabel('t(ms)')
 % ylabel('amplitude')
 nexttile
-plot(t900(401:427)*1000,x2(402:428));
+plot(t900(401:427)*1000,x2(401:427));
 title('x_2')
 xlabel('t(ms)')
 ylabel('amplitude')
@@ -171,21 +171,21 @@ ylabel('amplitude')
 figure('Name','time series overlays y1, y2')
 % tiledlayout(1,2)
 % nexttile
-% plot(t900(401:427)*1000,x1(402:428));
-% hold on;
-% plot(t(401:427)*1000,y1(401:427),'--r');
-% grid on;
-% title('x_1 vs y_1')
-% legend('x_1[n]','y_1[n]')
-% xlabel('t(ms)')
-% ylabel('amplitude')
-% nexttile
-plot(t900(401:427)*1000,x2(402:428));
+plot(t900(401:427)*1000,x1(401:427),'-b','LineWidth',2);
 hold on;
-plot(t900(401:427)*1000,y2(401:427),'--r');
+plot(t(401:427)*1000,y1(401:427),'--r','LineWidth',2);
 grid on;
-title('x_2[n] vs y_2[n]')
-legend('x_2[n]','y_2[n]')
+title('x_1 vs y_1')
+legend('x_1[n]','y_1[n]')
 xlabel('t(ms)')
 ylabel('amplitude')
+% nexttile
+% plot(t900(401:427)*1000,x2(401:427),'-b','LineWidth',2);
+% hold on;
+% plot(t900(401:427)*1000,y2(401:427),'--r','LineWidth',2);
+% grid on;
+% title('x_2[n] vs y_2[n]')
+% legend('x_2[n]','y_2[n]')
+% xlabel('t(ms)')
+% ylabel('amplitude')
 %% plot in dBfigure('Name','x2 vs y2, dB')
