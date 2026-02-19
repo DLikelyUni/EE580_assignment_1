@@ -4,10 +4,11 @@
 
 #define SIG_LEN 900
 #define SIG_PERIOD 9
+#define EX_LEN 4
 /**
  * main.c
  */
-void conv(float *x, float *y, float *h, int n_coef, int N){
+inline void conv(float *x, float *y, float *h, int n_coef, int N){
   float buffer[N_HD_1] = {0};
   int i = 0;
   int j = 0;
@@ -17,8 +18,9 @@ void conv(float *x, float *y, float *h, int n_coef, int N){
   i++;
   do {
     tmp = 0;
+    j = 0;
     do {
-      if ((buff_index-j) < 0){
+      if ((buff_index-j) >= 0){
         tmp += buffer[buff_index-j]*h[j];
       } else {
         tmp += buffer[buff_index+n_coef-j]*h[j];
@@ -53,8 +55,8 @@ int main(void)
     sum_x2 += u_2[i];
     i++;
   } while (i < SIG_PERIOD);
-  mean_x1 = sum_x1 / SIG_PERIOD;
-  mean_x2 = sum_x2 / SIG_PERIOD;
+  mean_x1 = (float)sum_x1 / SIG_PERIOD;
+  mean_x2 = (float)sum_x2 / SIG_PERIOD;
   int test;
   i = 0;
   do {
@@ -66,6 +68,7 @@ int main(void)
   test = 0;
   conv(x1, y1, hd1, N_HD_1, SIG_LEN);
   conv(x2, y2, hd2, N_HD_2, SIG_LEN);
+
 
 	return 0;
 }
