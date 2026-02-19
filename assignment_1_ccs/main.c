@@ -9,7 +9,7 @@
  * main.c
  */
 inline void conv(float *x, float *y, float *h, int n_coef, int N){
-  float buffer[N_HD_1] = {0};
+  float buffer[EX_LEN] = {0};
   int i = 0;
   int j = 0;
   int buff_index = 0;
@@ -32,7 +32,7 @@ inline void conv(float *x, float *y, float *h, int n_coef, int N){
     y[i-1] = tmp;
     i++;
 
-  } while (i < SIG_LEN);
+  } while (i < N);
   return;
 }
 
@@ -66,9 +66,13 @@ int main(void)
       test = x1[i-1]+x2[i-1];
     } while(i < SIG_LEN);
   test = 0;
-  conv(x1, y1, hd1, N_HD_1, SIG_LEN);
-  conv(x2, y2, hd2, N_HD_2, SIG_LEN);
+  //conv(x1, y1, hd1, N_HD_1, SIG_LEN);
+  //conv(x2, y2, hd2, N_HD_2, SIG_LEN);
 
+  float x_example[] = {1, 3, 5, 2};
+  float h_example[] = {4, 5, 2, 6};
+  float y_example[7] = {0};
+  conv(x_example, y_example, h_example, EX_LEN, 7);
 
 	return 0;
 }
