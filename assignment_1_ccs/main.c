@@ -14,25 +14,30 @@ inline void conv(float *x, float *y, float *h, int n_coef, int N){
   int j = 0;
   int buff_index = 0;
   float tmp;
+  // assign and increment before do while, avoid mod of zero errors
   buffer[0] = x[0];
   i++;
+
   do {
     tmp = 0;
     j = 0;
-    do {
-      if ((buff_index-j) >= 0){
+    do {        //loop implemening difference equation
+      if ((buff_index-j) >= 0){ //matches buffer element to corresponding coefficient -> buff_index place of newest element
         tmp += buffer[buff_index-j]*h[j];
       } else {
         tmp += buffer[buff_index+n_coef-j]*h[j];
       }
       j++;
     } while (j < n_coef);
-    buff_index = i % n_coef;
-    buffer[buff_index] = x[i];
-    y[i-1] = tmp;
-    i++;
-
-  } while (i < N);
+    buff_index = i % n_coef;        //updates index of newest data element
+    if (i < sizeof(x)){            //checks i is within bounds of x
+        buffer[buff_index] = x[i];  //
+    } else {                        //else adds zero padding to buffer
+        buffer[buff_index] = 0;
+    }
+    y[i-1] = tmp;                   //writes conv data to output array
+    i++;                            //increment timestep
+  } while (i-1 < N);
   return;
 }
 
