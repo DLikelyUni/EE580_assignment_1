@@ -8,12 +8,14 @@
 /**
  * main.c
  */
-inline void conv(float *x, float *y, float *h, int n_coef, int N){
-  float buffer[EX_LEN] = {0};
+inline void conv(float *x, float *y, float *h, int n_coef, int N, FILE *fptr){
+  float buffer[SIG_LEN] = {0};
   int i = 0;
   int j = 0;
   int buff_index = 0;
   float tmp;
+
+  
   // assign and increment before do while, avoid mod of zero errors
   buffer[0] = x[0];
   i++;
@@ -36,6 +38,7 @@ inline void conv(float *x, float *y, float *h, int n_coef, int N){
         buffer[buff_index] = 0;
     }
     y[i-1] = tmp;                   //writes conv data to output array
+    fprintf(fptr, "%f\n", y[i-1]);
     i++;                            //increment timestep
   } while (i-1 < N);
   return;
@@ -54,6 +57,9 @@ int main(void)
   int sum_x1 = 0;
   int sum_x2 = 0;
 
+  FILE *y1_txt;
+  FILE *y2_txt;
+
   int i = 0;
   do {
     sum_x1 += u_1[i];
@@ -71,13 +77,20 @@ int main(void)
       test = x1[i-1]+x2[i-1];
     } while(i < SIG_LEN);
   test = 0;
-  //conv(x1, y1, hd1, N_HD_1, SIG_LEN);
-  //conv(x2, y2, hd2, N_HD_2, SIG_LEN);
 
+  y1_txt = fopen("y1.txt", "w");
+  conv(x1, y1, hd1, N_HD_1, SIG_LEN, y1_txt);
+  fclose(y1_txt);
+
+  y2_txt = fopen("y2.txt","w");
+  conv(x2, y2, hd2, N_HD_2, SIG_LEN, y2_txt);
+  fclose(y2_txt);
+
+  /*
   float x_example[] = {1, 3, 5, 2};
   float h_example[] = {4, 5, 2, 6};
   float y_example[7] = {0};
   conv(x_example, y_example, h_example, EX_LEN, 7);
-
+  */
 	return 0;
 }
