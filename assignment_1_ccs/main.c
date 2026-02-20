@@ -10,6 +10,7 @@
  */
 inline void conv(float *x, float *y, float *h, int n_coef, int N){
   float buffer[SIG_LEN] = {0};
+  //float buffer[7] = {0};  //Buffer initialisation for 4 sample convolution example
   int i = 0;
   int j = 0;
   int buff_index = 0;
@@ -23,6 +24,12 @@ inline void conv(float *x, float *y, float *h, int n_coef, int N){
   do {
     tmp = 0;
     j = 0;
+    /*
+     * Convolution using a circular buffer
+     * New samples inserted at buff_index
+     * for each convolution step de-increments from buff_index to 0th element
+     * then deincrements from Nth element to buff_index
+     */
     do {        //loop implemening difference equation
       if ((buff_index-j) >= 0){ //matches buffer element to corresponding coefficient -> buff_index place of newest element
         tmp += buffer[buff_index-j]*h[j];
@@ -31,6 +38,7 @@ inline void conv(float *x, float *y, float *h, int n_coef, int N){
       }
       j++;
     } while (j < n_coef);
+
     buff_index = i % n_coef;        //updates index of newest data element
     if (i < N){            //checks i is within bounds of x
         buffer[buff_index] = x[i];  //
@@ -38,7 +46,6 @@ inline void conv(float *x, float *y, float *h, int n_coef, int N){
         buffer[buff_index] = 0;
     }
     y[i-1] = tmp;                   //writes conv data to output array
-    //fprintf(fptr, "%f\n", tmp);
     i++;                            //increment timestep
   } while (i-1 < N);
   return;
@@ -47,7 +54,7 @@ inline void conv(float *x, float *y, float *h, int n_coef, int N){
 int main(void)
 {
 
-  volatile int stu_num_element = 0;
+  //variable and array initilisation
   float x1[SIG_LEN] = {0};
   float x2[SIG_LEN] = {0};
   float y1[SIG_LEN] = {0};
@@ -57,9 +64,11 @@ int main(void)
   int sum_x1 = 0;
   int sum_x2 = 0;
 
+  //pointer setup for file operations
   FILE *y1_txt;
   FILE *y2_txt;
 
+  //calculate mean for x1, x2
   int i = 0;
   do {
     sum_x1 += u_1[i];
@@ -68,23 +77,21 @@ int main(void)
   } while (i < SIG_PERIOD);
   mean_x1 = (float)sum_x1 / SIG_PERIOD;
   mean_x2 = (float)sum_x2 / SIG_PERIOD;
-  int test;
+
+
+  //Propagate student numbers to 900 sample array, subtract mean from each sample for zero mean signal
   i = 0;
   do {
       i++; // increment index first to avoid undefined behaviour with %
       x1[i-1] = u_1[i%9] - mean_x1;
       x2[i-1] = u_2[i%9] - mean_x2;
-      test = x1[i-1]+x2[i-1];
     } while(i < SIG_LEN);
-  test = 0;
 
-  //y1_txt = fopen("y1.txt", "w");
+  //pass array pointers to function to perform convolution
   conv(x1, y1, hd1, N_HD_1, SIG_LEN);
-  //fclose(y1_txt);
-
-  //y2_txt = fopen("y2.txt","w");
   conv(x2, y2, hd2, N_HD_2, SIG_LEN);
-  //fclose(y2_txt);
+
+  //write signals to file
   y1_txt = fopen("y1.txt", "w");
   i = 0;
   do {
@@ -101,7 +108,7 @@ int main(void)
     } while (i < SIG_LEN);
     fclose(y2_txt);
 
-  /*
+  /*    Code for 4 sample convolution example
   float x_example[] = {1, 3, 5, 2};
   float h_example[] = {4, 5, 2, 6};
   float y_example[7] = {0};
