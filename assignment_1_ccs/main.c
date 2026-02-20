@@ -8,7 +8,7 @@
 /**
  * main.c
  */
-inline void conv(float *x, float *y, float *h, int n_coef, int N, FILE *fptr){
+inline void conv(float *x, float *y, float *h, int n_coef, int N){
   float buffer[SIG_LEN] = {0};
   int i = 0;
   int j = 0;
@@ -32,13 +32,13 @@ inline void conv(float *x, float *y, float *h, int n_coef, int N, FILE *fptr){
       j++;
     } while (j < n_coef);
     buff_index = i % n_coef;        //updates index of newest data element
-    if (i < sizeof(x)){            //checks i is within bounds of x
+    if (i < N){            //checks i is within bounds of x
         buffer[buff_index] = x[i];  //
     } else {                        //else adds zero padding to buffer
         buffer[buff_index] = 0;
     }
     y[i-1] = tmp;                   //writes conv data to output array
-    fprintf(fptr, "%f\n", y[i-1]);
+    //fprintf(fptr, "%f\n", tmp);
     i++;                            //increment timestep
   } while (i-1 < N);
   return;
@@ -78,13 +78,28 @@ int main(void)
     } while(i < SIG_LEN);
   test = 0;
 
+  //y1_txt = fopen("y1.txt", "w");
+  conv(x1, y1, hd1, N_HD_1, SIG_LEN);
+  //fclose(y1_txt);
+
+  //y2_txt = fopen("y2.txt","w");
+  conv(x2, y2, hd2, N_HD_2, SIG_LEN);
+  //fclose(y2_txt);
   y1_txt = fopen("y1.txt", "w");
-  conv(x1, y1, hd1, N_HD_1, SIG_LEN, y1_txt);
+  i = 0;
+  do {
+      fprintf(y1_txt, "%f\n", y1[i]);
+      i++;
+  } while (i < SIG_LEN);
   fclose(y1_txt);
 
-  y2_txt = fopen("y2.txt","w");
-  conv(x2, y2, hd2, N_HD_2, SIG_LEN, y2_txt);
-  fclose(y2_txt);
+  y2_txt = fopen("y2.txt", "w");
+    i = 0;
+    do {
+        fprintf(y2_txt, "%f\n", y2[i]);
+        i++;
+    } while (i < SIG_LEN);
+    fclose(y2_txt);
 
   /*
   float x_example[] = {1, 3, 5, 2};
