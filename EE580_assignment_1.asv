@@ -223,33 +223,24 @@ hold off
 % ylabel('amplitude')
 % 
 %% time series plots of bandpassed signals, overlay
-tickx=(1:1:27);
-ticky=(-3.2:0.4:6);
-
 figure('Name','time series overlays y1, y2')
-% tiledlayout(1,2)
-% nexttile
-% plot((1:27),x1(401:427),'-b','LineWidth',2,'Marker','*');
-% hold on;
-% plot((1:27),y1(401:427),'--r','LineWidth',2,'Marker','*');
-% grid on;
-% title('x_1 vs y_1')
-% legend('x_1[n]','y_1[n]')
-% xlabel('sample number n')
-% ylabel('amplitude')
-% xlim([1 27])
-% xticks(tickx);
-% yticks(ticky);
-% 
-% nexttile
-plot((1:27),x2(401:427),'-b','LineWidth',2,'Marker','*');
+tiledlayout(1,2)
+nexttile
+plot(t900(401:427)*1000,x1(401:427),'-b','LineWidth',2);
 hold on;
-plot((1:27),y2(401:427),'--r','LineWidth',2,'Marker','*');
+plot(t(401:427)*1000,y1(401:427),'--r','LineWidth',2);
 grid on;
-title('x_2 vs y_2')
+title('x_1 vs y_1')
+legend('x_1[n]','y_1[n]')
+xlabel('sample number n')
+ylabel('amplitude')
+nexttile
+plot(1:27,x2(401:427),'-b','LineWidth',2);
+hold on;
+plot(t900(401:427)*1000,y2(401:427),'--r','LineWidth',2);
+grid on;
+title('x_2[n] vs y_2[n]')
 legend('x_2[n]','y_2[n]')
 xlabel('sample number n')
 ylabel('amplitude')
-xlim([1 27])
-xticks(tickx);
-yticks(ticky);
+% plot in dBfigure('Name','x2 vs y2, dB')
