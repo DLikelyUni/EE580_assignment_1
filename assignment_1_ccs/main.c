@@ -9,7 +9,7 @@
  * main.c
  */
 inline void conv(float *x, float *y, float *h, int n_coef, int N){
-  float buffer[SIG_LEN] = {0};
+  float buffer[N_HD_1] = {0};
   //float buffer[7] = {0};  //Buffer initialisation for 4 sample convolution example
   int i = 0;
   int j = 0;
