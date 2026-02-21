@@ -10,11 +10,15 @@
 
 #define U_1 9
 
-int u_1[] = { 2, 0, 2, 1, 1, 2, 9, 8, 5 };
+int u_1[] = { 2, 0, 2, 1, 1, 2, 9, 8, 5 }; //Student No. for x1
 
 #define U_2 9
 
-int u_2[] = { 2, 0, 2, 1, 2, 9, 6, 6, 3 };
+int u_2[] = { 2, 0, 2, 1, 2, 9, 6, 6, 3 }; //Student No. for x2
+
+/*
+ * 32bit float filter coefficients generated from Matlab filter designer
+ */
 
 #define N_HD_2 125
 

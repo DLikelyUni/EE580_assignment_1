@@ -94,8 +94,8 @@ int main(void)
   //write signals to file
   y1_txt = fopen("y1.txt", "w");
   i = 0;
-  do {
-      fprintf(y1_txt, "%f\n", y1[i]);
+  do {	//loop over all samples of filtered signal
+      fprintf(y1_txt, "%f\n", y1[i]);	//write sample at loop index to txt file and create new line
       i++;
   } while (i < SIG_LEN);
   fclose(y1_txt);
